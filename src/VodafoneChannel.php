@@ -8,7 +8,7 @@ use NotificationChannels\Vodafone\Exceptions\CouldNotSendNotification;
 
 class VodafoneChannel
 {
-    /** $var Client */
+    /** $var VodafoneClient */
     private $client;
 
     public function __construct(VodafoneClient $client)
