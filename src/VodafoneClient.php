@@ -56,7 +56,7 @@ class VodafoneClient
             throw CouldNotSendNotification::serviceUnknownResponse();
         }
 
-        $body = json_decode($res->getBody()->getContents())[0];
+        $body = json_decode($res->getBody()->getContents())[0] ?? null;
 
         if ($body->status === 'ERROR') {
             throw CouldNotSendNotification::serviceRespondedWithAnError($body);
