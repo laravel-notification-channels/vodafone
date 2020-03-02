@@ -17,7 +17,8 @@ class VodafoneMessage
     /**
      * Create a new message instance.
      *
-     * @param  string  $content
+     * @param string $content
+     *
      * @return void
      */
     public function __construct($content = '')
@@ -28,7 +29,8 @@ class VodafoneMessage
     /**
      * Set the notification content.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return $this
      */
     public function content($value)
@@ -41,7 +43,8 @@ class VodafoneMessage
     /**
      * Set the notification sender.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return $this
      */
     public function from($value)
