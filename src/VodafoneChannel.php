@@ -18,8 +18,8 @@ class VodafoneChannel
     /**
      * Send the given notification.
      *
-     * @param mixed                                     $notifiable
-     * @param \Illuminate\Notifications\Notification    $notification
+     * @param mixed                                  $notifiable
+     * @param \Illuminate\Notifications\Notification $notification
      *
      * @throws \NotificationChannels\Vodafone\Exceptions\CouldNotSendNotification
      */
