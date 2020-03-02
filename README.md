@@ -3,6 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/laravel-notification-channels/vodafone.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/vodafone)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/laravel-notification-channels/vodafone/master.svg?style=flat-square)](https://travis-ci.org/laravel-notification-channels/vodafone)
+[![StyleCI](https://styleci.io/repos/229823561/shield)](https://styleci.io/repos/229823561)
 [![Quality Score](https://img.shields.io/scrutinizer/g/laravel-notification-channels/vodafone.svg?style=flat-square)](https://scrutinizer-ci.com/g/laravel-notification-channels/vodafone)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/laravel-notification-channels/vodafone/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/laravel-notification-channels/vodafone/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel-notification-channels/vodafone.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/vodafone)
