@@ -20,6 +20,7 @@ class VodafoneClient
 
     /**
      * VodafoneClient constructor.
+     *
      * @param $username
      * @param $password
      */
@@ -35,6 +36,7 @@ class VodafoneClient
      * @param $from
      * @param $to
      * @param $message
+     *
      * @return mixed Vodafone API result
      */
     public function send($from, $to, $message)
@@ -42,17 +44,17 @@ class VodafoneClient
         $client = new Client();
         $res = $client->post($this->endpoint, [
             'form_params' => [
-                'username' => $this->username,
-                'password' => $this->password,
-                'to' => $to,
-                'message' => $message,
-                'from' => $from,
-                'format' => 'json',
-                'flash' => 0,
+                'username'  => $this->username,
+                'password'  => $this->password,
+                'to'        => $to,
+                'message'   => $message,
+                'from'      => $from,
+                'format'    => 'json',
+                'flash'     => 0,
             ],
         ]);
 
-        if (! $res) {
+        if (!$res) {
             throw CouldNotSendNotification::serviceUnknownResponse();
         }
 
