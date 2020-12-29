@@ -46,16 +46,17 @@ class VodafoneClient
     }
 
     /**
-     *  VodafoneClient send method
+     *  VodafoneClient send method.
      *
      * @param $from
      * @param $to
      * @param $message
      *
-     * @return mixed Vodafone API result
      * @throws CouldNotSendNotification
      * @throws StandardNotification
      * @throws GuzzleException
+     *
+     * @return mixed Vodafone API result
      */
     public function send($from, $to, $message)
     {
@@ -72,7 +73,9 @@ class VodafoneClient
             ],
         ]);
 
-        if (!$res) throw CouldNotSendNotification::serviceUnknownResponse();
+        if (!$res) {
+            throw CouldNotSendNotification::serviceUnknownResponse();
+        }
 
         $body = $this->parseResponse($res);
 
@@ -84,12 +87,13 @@ class VodafoneClient
     }
 
     /**
-     * VodafoneClient receive method
+     * VodafoneClient receive method.
      *
-     * @return mixed Vodafone API result
      * @throws CouldNotReceiveNotification
      * @throws StandardNotification
      * @throws GuzzleException
+     *
+     * @return mixed Vodafone API result
      */
     public function receive()
     {
@@ -102,12 +106,17 @@ class VodafoneClient
             ],
         ]);
 
-        if (!$res) throw CouldNotReceiveNotification::serviceUnknownResponse();
+        if (!$res) {
+            throw CouldNotReceiveNotification::serviceUnknownResponse();
+        }
 
         $body = $this->parseResponse($res);
 
         if ($body->status === 'ERROR') {
-            if($body->code === 201) throw CouldNotReceiveNotification::noNewMessages();
+            if($body->code === 201) {
+                throw CouldNotReceiveNotification::noNewMessages();
+            }
+
             throw StandardNotification::serviceRespondedWithAnError($body);
         }
 
@@ -115,10 +124,11 @@ class VodafoneClient
     }
 
     /**
-     * @return mixed|null
      * @throws CouldNotReceiveNotification
      * @throws GuzzleException
      * @throws StandardNotification
+     *
+     * @return mixed|null
      */
     public static function getUnread()
     {
@@ -127,6 +137,7 @@ class VodafoneClient
 
     /**
      * @param $res
+     *
      * @return mixed|null
      */
     public function parseResponse($res)

@@ -18,7 +18,7 @@ class VodafoneChannel
     /**
      * Send the given notification.
      *
-     * @param mixed                                  $notifiable
+     * @param mixed $notifiable
      * @param Notification $notification
      *
      * @throws CouldNotSendNotification
