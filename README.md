@@ -26,7 +26,7 @@ $user->notify(new Notification())
 - [Usage](#usage)
     - [Sending Text Message](#sending-text-message)
 	    - [Available Message methods](#available-message-methods)
-    - 
+    - [Retrieving Text Messages](#retrieving-text-messages)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 - [Credits](#credits)
