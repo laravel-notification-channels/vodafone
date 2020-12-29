@@ -2,7 +2,7 @@
 
 namespace NotificationChannels\Vodafone\Exceptions;
 
-class CouldNotSendNotification extends StandardNotification
+class CouldNotReceiveNotification extends StandardNotification
 {
     public static function methodDoesNotExist()
     {
@@ -12,5 +12,10 @@ class CouldNotSendNotification extends StandardNotification
     public static function incorrectMessageClass()
     {
         return new static('Your notification is incorrectly formatted or needs to use an instance of the VodafoneMessage class.');
+    }
+
+    public static function noNewMessages()
+    {
+        return new static('There are no new messages.');
     }
 }
