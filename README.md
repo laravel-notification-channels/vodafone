@@ -24,7 +24,9 @@ $user->notify(new Notification())
 - [Installation](#installation)
 	- [Setting up the Vodafone service](#setting-up-the-Vodafone-service)
 - [Usage](#usage)
-	- [Available Message methods](#available-message-methods)
+    - [Sending Text Message](#sending-text-message)
+	    - [Available Message methods](#available-message-methods)
+    - [Retrieving Text Messages](#retrieving-text-messages)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 - [Credits](#credits)
@@ -56,6 +58,8 @@ The Vodafone service has the option to send messages with an alpha tag so instea
 
 ## Usage
 
+### Sending Text Message
+
 Within your notification you need to add the Vodafone channel to your via() method:
 ``` php
 use Illuminate\Notifications\Notification;
@@ -86,11 +90,42 @@ public function routeNotificationForVodafone()
 }
 ```
 
-### Available Message methods
+#### Available Message methods
 
 `content()`: Sets the message content of the SMS
 
 `from()`: Sets the qualified sender of the message
+
+### Retrieving Text Messages
+
+The VodafoneClient class comes with a 'receive' method for retrieving messages from the Vodafone server.
+
+_**Note:** It only returns unread messages and once the Vodafone endpoint has been hit all unread messages are then marked as read. So you only have one opportunity to further process incoming messages._
+
+```php
+use NotificationChannels\Vodafone\VodafoneClient;
+
+$vc = new VodafoneClient();
+$vc->receive();
+
+// A static method is also available
+VodafoneClient::getUnread();
+```  
+
+Since the Vodafone API only returns one unread message at a time a loop will need to be used to retrieve all the unread messages.
+
+Vodafone will return an Error (code: 201) when there are no more unread messages, so breaking the loop on an Exception means there are no more messages to be retrieved. 
+```php
+use NotificationChannels\Vodafone\VodafoneClient;
+
+$ex = false;
+do {
+    try {
+        $message = VodafoneClient::getUnread();
+        // Process Message
+    } catch (\Exception $ex) {}
+} while (!$ex);
+```
 
 ## Changelog
 

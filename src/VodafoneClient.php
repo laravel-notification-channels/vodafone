@@ -3,14 +3,27 @@
 namespace NotificationChannels\Vodafone;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use NotificationChannels\Vodafone\Exceptions\CouldNotReceiveNotification;
 use NotificationChannels\Vodafone\Exceptions\CouldNotSendNotification;
+use NotificationChannels\Vodafone\Exceptions\StandardNotification;
 
 class VodafoneClient
 {
     /**
-     * @var string Vodafone's API endpoint
+     * @var string Vodafone's send API endpoint
      */
-    protected $endpoint = 'https://www.smsertech.com/apisend';
+    protected string $sendEndpoint = 'https://www.smsertech.com/apisend';
+
+    /**
+     * @var string Vodafone's status API endpoint
+     */
+    protected string $statusEndpoint = 'https://www.smsertech.com/apistatus';
+
+    /**
+     * @var string Vodafone's receive API endpoint
+     */
+    protected string $receiveEndpoint = 'https://www.smsertech.com/apiget';
 
     /** @var string Vodafone SMS username */
     protected $username;
@@ -33,16 +46,22 @@ class VodafoneClient
     }
 
     /**
+     *  VodafoneClient send method.
+     *
      * @param $from
      * @param $to
      * @param $message
+     *
+     * @throws CouldNotSendNotification
+     * @throws StandardNotification
+     * @throws GuzzleException
      *
      * @return mixed Vodafone API result
      */
     public function send($from, $to, $message)
     {
         $client = new Client();
-        $res = $client->post($this->endpoint, [
+        $res = $client->post($this->sendEndpoint, [
             'form_params' => [
                 'username'  => $this->username,
                 'password'  => $this->password,
@@ -58,12 +77,71 @@ class VodafoneClient
             throw CouldNotSendNotification::serviceUnknownResponse();
         }
 
-        $body = json_decode($res->getBody()->getContents())[0] ?? null;
+        $body = $this->parseResponse($res);
 
         if ($body->status === 'ERROR') {
-            throw CouldNotSendNotification::serviceRespondedWithAnError($body);
+            throw StandardNotification::serviceRespondedWithAnError($body);
         }
 
         return $body;
+    }
+
+    /**
+     * VodafoneClient receive method.
+     *
+     * @throws CouldNotReceiveNotification
+     * @throws StandardNotification
+     * @throws GuzzleException
+     *
+     * @return mixed Vodafone API result
+     */
+    public function receive()
+    {
+        $client = new Client();
+        $res = $client->post($this->receiveEndpoint, [
+            'form_params' => [
+                'username'  => $this->username,
+                'password'  => $this->password,
+                'format'    => 'json',
+            ],
+        ]);
+
+        if (!$res) {
+            throw CouldNotReceiveNotification::serviceUnknownResponse();
+        }
+
+        $body = $this->parseResponse($res);
+
+        if ($body->status === 'ERROR') {
+            if($body->code === 201) {
+                throw CouldNotReceiveNotification::noNewMessages();
+            }
+
+            throw StandardNotification::serviceRespondedWithAnError($body);
+        }
+
+        return $body;
+    }
+
+    /**
+     * @throws CouldNotReceiveNotification
+     * @throws GuzzleException
+     * @throws StandardNotification
+     *
+     * @return mixed|null
+     */
+    public static function getUnread()
+    {
+        return (new self())->receive();
+    }
+
+    /**
+     * @param $res
+     *
+     * @return mixed|null
+     */
+    public function parseResponse($res)
+    {
+        return json_decode($res->getBody()->getContents())[0] ?? null;
     }
 }

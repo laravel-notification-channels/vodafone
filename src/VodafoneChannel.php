@@ -18,10 +18,10 @@ class VodafoneChannel
     /**
      * Send the given notification.
      *
-     * @param mixed                                  $notifiable
-     * @param \Illuminate\Notifications\Notification $notification
+     * @param mixed $notifiable
+     * @param Notification $notification
      *
-     * @throws \NotificationChannels\Vodafone\Exceptions\CouldNotSendNotification
+     * @throws CouldNotSendNotification
      */
     public function send($notifiable, Notification $notification)
     {
